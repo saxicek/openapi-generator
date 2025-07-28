@@ -1,6 +1,12 @@
 import { HttpHeaders, HttpParams, HttpParameterCodec } from '@angular/common/http';
 import { Param } from './param';
 
+/**
+ * Names in the securitySchemes section of the OpenAPI document.
+ */
+type SecuritySchemes ={{#authMethods}}
+  | '{{name}}'{{/authMethods}};
+
 export interface {{configurationParametersInterfaceName}} {
     /**
      *  @deprecated Since 5.0. Use credentials instead
@@ -31,7 +37,7 @@ export interface {{configurationParametersInterfaceName}} {
      * document. They should map to the value used for authentication
      * minus any standard prefixes such as 'Basic' or 'Bearer'.
      */
-    credentials?: {[ key: string ]: string | (() => string | undefined)};
+    credentials?: Partial<Record<SecuritySchemes, string | (() => string | undefined)>>;
 }
 
 export class {{configurationClassName}} {
